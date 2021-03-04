@@ -1,18 +1,24 @@
 (function() {
-  var $body = document.body
   var ansi_up = new AnsiUp;
   var printRaw = (function () {
     var element = document.getElementById('replterm');
     if (element) element.textContent = ''; // clear browser cache
     return function (text) {
-      element.innerHTML += text;
-      $body.scrollTop = $body.scrollHeight;
+      if (element) {
+        element.innerHTML += text;
+        element.scrollTop = element.scrollHeight; // focus on bottom
+      }
     }
   })();
 
   function htmlEscape(text) {
     text = ansi_up.ansi_to_html(text);
     text = text.replace('\n', '<br>', 'g');
+    return text;
+  }
+
+  function cleanContentEditableInput(text) {
+    text = text.replace(/\u00A0/g, " ");
     return text;
   }
 
@@ -50,36 +56,36 @@
       var repl_prompt = Module.cwrap('repl_prompt', 'string', []);
       var promptel = document.getElementById('replprompt');
       promptel.textContent = repl_prompt();
-
       document.getElementById('replin').addEventListener('keydown', (e) => {
         const srcElement = e.target || srcElement;
         if (e.keyCode === 13) {
-          const text = srcElement.value;
+          const content = srcElement.textContent;
+          const text = cleanContentEditableInput(content + '\n');
           replHistory.pop();
-          replHistory.push(text);
+          replHistory.push(content);
           historyIndex = replHistory.length;
           replHistory.push('');
-          srcElement.value = '';
-          printRaw('<span style="color:#9198e5;">' + htmlEscape(repl_prompt() + text + '\n') + '</span>')
+          srcElement.textContent = '';
+          printRaw('<span style="color:#9198e5;">' + htmlEscape(repl_prompt() + text) + '</span>')
           repl_input(text);
           promptel.textContent = repl_prompt();
         } else if (e.keyCode === 38) {
           if (historyIndex > 0) {
             if (historyIndex === replHistory.length - 1) {
               replHistory.pop()
-              replHistory.push(srcElement.value)
+              replHistory.push(srcElement.textContent)
             }
             historyIndex--;
-            srcElement.value = replHistory[historyIndex];
+            srcElement.textContent = replHistory[historyIndex];
           }
         } else if (e.keyCode === 40) {
           if (historyIndex < replHistory.length - 1) {
             if (historyIndex === replHistory.length - 1) {
               replHistory.pop()
-              replHistory.push(srcElement.value)
+              replHistory.push(srcElement.textContent)
             }
             historyIndex++;
-            srcElement.value = replHistory[historyIndex];
+            srcElement.textContent = replHistory[historyIndex];
           }
         }
       });
