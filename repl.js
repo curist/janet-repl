@@ -1,13 +1,16 @@
 (function() {
   var $body = document.body
   var $input = document.getElementById('replin');
+  var fullHeight = $body.clientHeight;
   var ansi_up = new AnsiUp;
   var printRaw = (function () {
     var element = document.getElementById('replterm');
     if (element) element.textContent = ''; // clear browser cache
     return function (text) {
       element.innerHTML += text;
-      $body.scrollTop = $body.scrollHeight;
+      if($body.scrollHeight > fullHeight) {
+        $body.scrollTop = $body.scrollHeight;
+      }
     }
   })();
 
