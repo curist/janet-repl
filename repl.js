@@ -1,5 +1,6 @@
 (function() {
   var $body = document.body
+  var $input = document.getElementById('replin');
   var ansi_up = new AnsiUp;
   var printRaw = (function () {
     var element = document.getElementById('replterm');
@@ -51,36 +52,35 @@
       var promptel = document.getElementById('replprompt');
       promptel.textContent = repl_prompt();
 
-      document.getElementById('replin').addEventListener('keydown', (e) => {
-        const srcElement = e.target || srcElement;
+      $input.addEventListener('keydown', (e) => {
         if (e.keyCode === 13) {
-          var content = srcElement.value;
+          var content = $input.value;
           var text = content + '\n';
           replHistory.pop();
           replHistory.push(content);
           historyIndex = replHistory.length;
           replHistory.push('');
-          srcElement.value = '';
-          printRaw('<span style="color:#9198e5;">' + htmlEscape(repl_prompt() + text + '\n') + '</span>')
+          $input.value = '';
+          printRaw('<span style="color:#9198e5;">' + htmlEscape(repl_prompt()) + '<code>' + content + '</code><br></span>')
           repl_input(text);
           promptel.textContent = repl_prompt();
         } else if (e.keyCode === 38) {
           if (historyIndex > 0) {
             if (historyIndex === replHistory.length - 1) {
               replHistory.pop()
-              replHistory.push(srcElement.value)
+              replHistory.push($input.value)
             }
             historyIndex--;
-            srcElement.value = replHistory[historyIndex];
+            $input.value = replHistory[historyIndex];
           }
         } else if (e.keyCode === 40) {
           if (historyIndex < replHistory.length - 1) {
             if (historyIndex === replHistory.length - 1) {
               replHistory.pop()
-              replHistory.push(srcElement.value)
+              replHistory.push($input.value)
             }
             historyIndex++;
-            srcElement.value = replHistory[historyIndex];
+            $input.value = replHistory[historyIndex];
           }
         }
       });
@@ -99,6 +99,13 @@
       Module._repl_init();
     }
   };
+
+  document.body.addEventListener('click', e => {
+    if(e.target.tagName == 'CODE') {
+      $input.value = e.target.textContent;
+      setTimeout(() => $input.focus());
+    }
+  })
 
   window.Module = Module;
 })();
