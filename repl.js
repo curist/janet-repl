@@ -54,9 +54,10 @@
       document.getElementById('replin').addEventListener('keydown', (e) => {
         const srcElement = e.target || srcElement;
         if (e.keyCode === 13) {
-          const text = srcElement.value;
+          var content = srcElement.value;
+          var text = content + '\n';
           replHistory.pop();
-          replHistory.push(text);
+          replHistory.push(content);
           historyIndex = replHistory.length;
           replHistory.push('');
           srcElement.value = '';
