@@ -1,0 +1,28 @@
+{
+    "dir": "ltr",
+    "lang": "ro",
+    "name": "Janet REPL",
+    "short_name": "janet",
+    "scope": "/janet-repl/",
+    "display": "standalone",
+    "start_url": "https://curist.github.io/janet-repl/",
+    "background_color": "none",
+    "theme_color": "transparent",
+    "description": "",
+    "orientation": "any",
+    "related_applications": [],
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "https://curist.github.io/janet-repl/favicon.ico",
+            "sizes": "16x16"
+        },
+        {
+            "src": "https://curist.github.io/janet-repl/janet-big.png",
+            "type": "image/png",
+            "sizes": "214x231"
+        }
+    ],
+    "url": "https://curist.github.io/janet-repl/",
+    "screenshots": []
+}
