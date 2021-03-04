@@ -14,7 +14,6 @@ html,body {
   padding: 5px 10px;
   line-height: 1.5em;
   font-size: 16px;
-  min-height: calc(100vh - 50px);
 }
 
 #replinput {
