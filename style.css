@@ -14,15 +14,14 @@ html,body {
   padding: 5px 10px;
   line-height: 1.5em;
   font-size: 16px;
+  min-height: calc(100vh - 50px);
 }
 
 #replinput {
   position: sticky;
   z-index: 1;
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  margin: 0;
+  bottom: 5px;
+  margin: 0 5px;
   display: flex;
   font-size: 16px;
 }
