@@ -1,6 +1,6 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
-const CACHE = 'janet-1.15';
+const CACHE = 'janet-1.15:1';
 
 const offlineFallbackPage = [
   'style.css',
